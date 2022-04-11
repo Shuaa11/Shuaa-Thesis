@@ -19,39 +19,30 @@ btc_data = pd.read_csv('BTC-USD2.csv')
 # Opening the historical data for the candlestick
 btc_usd = pd.read_csv('BTC-USD2.csv',usecols=["Date","Open","High","Low","Close"])
 btc_usd_df = pd.DataFrame(btc_usd)
-trade_history=[{
-    "result": "START",
-    "price": 0,
-    "usd_balance": 1000,
-    "btc_balance": 0,
-    "today_date": "Nov 8, 2021"
-}]
+
 # Reading news
 
 news = pd.read_pickle("news.txt")
 # news = pd.read_csv('Crypto-News-Data2.csv', usecols=["Date","Title"])
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/tradeLog')
-def tradeLog():
-    jsonStr = json.dumps(trade_history)
-    history = {"his": jsonStr}
-    print(history)
-    return history
-
+x={}
 
 @app.route('/predict',methods=["POST"])
 def predictNLTK():
     date = request.json
     perform_trade(get_date_prediction_Spacy(date["date"]),btc_price_today(date["date"]))
-    r = {"result": get_date_prediction_Spacy(date["date"]),
-            "price":btc_price_today(date["date"]),
+    global x
+    x = {"result": get_date_prediction_Spacy(date["date"]),
+          "price":btc_price_today(date["date"]),
             "usd_balance": trade["Dollars"],
             "btc_balance": trade["BTC_Balance"],
             "today_date": date["date"]}
-    trade_history.append(r)
-    return r
+    return x
+
+@app.route('/tradeLog')
+def tradeLog():
+    return x
 
 
 @app.route('/resetbalance')
