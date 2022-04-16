@@ -66,7 +66,7 @@ class CandleChart extends React.Component {
         render() {
           return (
 
-          <ReactApexChart options={this.state.options} series={this.state.series} type="candlestick" height={550}
+          <ReactApexChart options={this.state.options} series={this.state.series} type="candlestick"
           />
 
 

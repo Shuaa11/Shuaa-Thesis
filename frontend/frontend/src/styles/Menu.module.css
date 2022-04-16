@@ -1,0 +1,16 @@
+.customMenu :global(.ant-menu-item-icon ){
+   display: block;
+   margin: auto;
+   font-size: 20px;
+}
+.customMenu :global(.ant-menu-item ){
+   text-align: center;
+   height: auto;
+   padding-top: 10px;
+}
+.customMenu :global(.ant-menu-item .ant-menu-item-icon + span){
+   margin-left: 0px;
+   font-size: 16px;
+}
+
+

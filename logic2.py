@@ -3,6 +3,8 @@
 # Opening JSON file
 import json
 import ast
+import time
+
 import pandas as pd
 import numpy as np
 news = pd.read_pickle("news.txt")
@@ -18,11 +20,13 @@ pred2 = np.array(ast.literal_eval(data), dtype=str)
 
 def get_date_prediction_Spacy(date: str) -> str:
     results = []
+    newdate1 = time.strptime(date, "%b %d, %Y")
+    newdate2 = time.strptime(news.iloc[0,0],"%b %d, %Y")
+    if newdate1>newdate2:
+        return ""
     indexes = news.index[news['Date'] == date].tolist()
     if len(indexes) == 0:
         return "HOLD"
-    if indexes[-1] >= len(pred2):
-        return ""
     for index in indexes:
         results.append(pred2[index])
     p_count = results.count("Positive")
@@ -35,4 +39,4 @@ def get_date_prediction_Spacy(date: str) -> str:
     elif n_count ==  p_count:
         return "HOLD"
 
-get_date_prediction_Spacy("26 Nov, 2021")
+

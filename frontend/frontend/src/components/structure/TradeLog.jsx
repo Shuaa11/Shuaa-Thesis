@@ -4,7 +4,7 @@ import Toolbar from "../toolbar";
 import DropDownChartMenu from "../DropdownMenu";
 import NewsFeed from "../NewsFeed";
 export default function TradeLog(){
-const [day, setDay] = useState("Nov 8, 2021");
+const [day, setDay] = useState("April 1, 2022");
 
 const [trade, setTrade] = useState({
     "result": "START",
@@ -13,7 +13,7 @@ const [trade, setTrade] = useState({
     "btc_balance": 0,
     "today_date": day
 });
-const [logs, setLogs] = useState([])
+const [logs, setLogs] = useState([trade])
 useEffect(()=>{
     setInterval(()=>{
           fetch('http://localhost:5000/tradeLog').then(function(response) {
@@ -22,9 +22,9 @@ useEffect(()=>{
             // You parse the data into a useable format using .json()
             return response.json();
           }).then(function(data) {
-             logs.unshift(data)
+             setLogs(data)
           });
-    },5000)
+    },5500)
 
 },[])
 
