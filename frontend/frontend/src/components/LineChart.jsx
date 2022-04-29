@@ -71,7 +71,7 @@ class LineChart extends React.Component {
           })
         }
         componentDidMount() {
-           fetch('http://localhost:5000/btc_candlestick')
+           fetch('http://localhost:5000/'+ this.props.name+'_candlestick')
         .then((response) => response.json())
         .then(data => {
             let numbers =[]
@@ -93,7 +93,7 @@ class LineChart extends React.Component {
 
 
 
-  <ReactApexChart options={this.state.options} series={this.state.series} type="line" height={550} />
+  <ReactApexChart options={this.state.options} series={this.state.series} type="line"/>
 
 
 

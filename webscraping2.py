@@ -1,11 +1,8 @@
 import asyncio
-import json
 import pandas as pd
-
 import time
-import requests
 from pyppeteer import launch
-country = "uk"
+
 async def main():
     browser = await launch()
     page = await browser.newPage()

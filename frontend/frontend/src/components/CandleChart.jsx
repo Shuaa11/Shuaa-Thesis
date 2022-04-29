@@ -17,7 +17,7 @@ class CandleChart extends React.Component {
                   margin:"auto"
               },
               title: {
-                text: 'Bitcoin Historical Data'
+                text: props.name+'Historical Data'
               },
               xaxis: {
                 type: 'datetime'
@@ -50,7 +50,7 @@ class CandleChart extends React.Component {
         }
 
          componentDidMount() {
-           fetch('http://localhost:5000/btc_candlestick')
+           fetch('http://localhost:5000/'+ this.props.name+'_candlestick')
         .then((response) => response.json())
         .then(data => {
             let numbers =[]

@@ -3,17 +3,11 @@ import {Col, Row} from "antd";
 import Toolbar from "../toolbar";
 import DropDownChartMenu from "../DropdownMenu";
 import NewsFeed from "../NewsFeed";
-export default function TradeLog(){
-const [day, setDay] = useState("April 1, 2022");
+export default function TradeLog(props){
+const [day, setDay] = useState("Dec 1, 2021");
 
-const [trade, setTrade] = useState({
-    "result": "START",
-    "price": 0,
-    "usd_balance": 1000,
-    "btc_balance": 0,
-    "today_date": day
-});
-const [logs, setLogs] = useState([trade])
+
+const [logs, setLogs] = useState([])
 useEffect(()=>{
     setInterval(()=>{
           fetch('http://localhost:5000/tradeLog').then(function(response) {
@@ -24,11 +18,12 @@ useEffect(()=>{
           }).then(function(data) {
              setLogs(data)
           });
-    },5500)
+    },5100)
 
 },[])
 
 return<>
+    <div style={{display:props.dis}}>
     <h2 style={{padding:"6px",borderBottom:"1px solid #9b9e9c", backgroundColor:"#81b7cc",color:"white"}} >
          Trade History
      </h2>
@@ -41,6 +36,8 @@ return<>
 
       </li>
     {
+        logs.length != 0 ?
+
       logs.map(log=>{
           return <li style={{padding:"5px",borderBottom:"1px solid black"}}>
               <p style={{display:"inline"}} >{log.today_date}</p>
@@ -50,8 +47,11 @@ return<>
 
           </li>
       })
+        :
+            null
     }
   </ul>
+    </div>
 </>
 }
 

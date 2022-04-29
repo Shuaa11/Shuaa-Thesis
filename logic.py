@@ -1,5 +1,4 @@
 
-
 # Opening JSON file
 import json
 import ast
@@ -7,18 +6,28 @@ import time
 
 import pandas as pd
 import numpy as np
-news = pd.read_pickle("frame.txt")
+news = pd.read_pickle("resources/news.txt")
 # print(df)
 
-f = open('predict.json')
-data = json.load(f)
-data = data[1:-1]
-pred2 = np.array(ast.literal_eval(data), dtype=str)
+f_nltk = open('resources/predict.json')
+f_spacy = open('resources/predict.json')
+data_nltk = json.load(f_nltk)
+data_nltk = data_nltk[1:-1]
+pred_nltk = np.array(ast.literal_eval(data_nltk), dtype=str)
+
+data_spacy = json.load(f_spacy)
+data_spacy = data_spacy[1:-1]
+pred_spacy = np.array(ast.literal_eval(data_spacy), dtype=str)
 
 # print(len(pred2))
 # print(news.head())
 
-def get_date_prediction_NLTK(date: str) -> str:
+def get_date_prediction(date: str, algorithm :str) -> str:
+    predictor = None
+    if algorithm == "NLTK":
+        predictor = pred_nltk
+    if algorithm == "SPACY":
+        predictor = pred_spacy
     results = []
     newdate1 = time.strptime(date, "%b %d, %Y")
     newdate2 = time.strptime(news.iloc[0, 0], "%b %d, %Y")
@@ -28,7 +37,7 @@ def get_date_prediction_NLTK(date: str) -> str:
     if len(indexes) == 0:
         return "HOLD"
     for index in indexes:
-        results.append(pred2[index])
+        results.append(predictor[index])
     p_count = results.count("Positive")
     n_count = results.count("Negative")
 
@@ -38,4 +47,3 @@ def get_date_prediction_NLTK(date: str) -> str:
         return "SELL"
     elif n_count ==  p_count:
         return "HOLD"
-

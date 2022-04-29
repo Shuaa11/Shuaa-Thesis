@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import CandleChart from "./CandleChart";
 import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import { FcCandleSticks } from "react-icons/fc";
+import { DownOutlined , SlidersOutlined} from '@ant-design/icons';
+
 import { VscGraphLine } from "react-icons/vsc";
 import LineChart from "./LineChart";
 
 
-export default function DropDownChartMenu(){
+export default function DropDownChartMenu(props){
     const [showCandle, setShowCandle] = useState(true)
     const [showLine, setShowLine] = useState(false)
 
@@ -24,7 +24,7 @@ export default function DropDownChartMenu(){
     const menu = (
       <Menu>
         <Menu.Item key="0">
-          <a href=""  onClick={handleCandleClick}><FcCandleSticks></FcCandleSticks>  Candle Chart</a>
+          <a href=""  onClick={handleCandleClick}><SlidersOutlined />  Candle Chart</a>
         </Menu.Item>
           <Menu.Divider />
         <Menu.Item key="1">
@@ -40,6 +40,6 @@ export default function DropDownChartMenu(){
           <VscGraphLine></VscGraphLine><DownOutlined />
         </a>
   </Dropdown>
-        {showCandle ? <CandleChart></CandleChart> : <LineChart></LineChart>}
+        {showCandle ? <CandleChart name={props.name}></CandleChart> : <LineChart name={props.name}></LineChart>}
         </>
 }

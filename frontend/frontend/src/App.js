@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import { Layout, Menu } from 'antd';
 import {Routes, Route, useNavigate, useLocation} from 'react-router-dom'
-import { BsGraphUp } from "react-icons/bs";
+import { BsGraphUp , BsCompass } from "react-icons/bs";
 import styles from "./styles/Menu.module.css"
 import DropDownChartMenu from "./components/DropdownMenu";
 import Toolbar from "./components/toolbar";
+import ChartsTab from "./components/ChartsTab";
 import {
   BarChartOutlined,
   CloudOutlined,
@@ -15,6 +16,9 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import {Col, Row, Switch} from "antd";
+import NewsFeed from "./components/NewsFeed";
+import TradeLog from "./components/structure/TradeLog";
+import DemoDropDownMenu from "./components/DemoDropDownMenu";
 function App() {
         const { pathname } = useLocation();
     const navigate = useNavigate()
@@ -73,9 +77,11 @@ return<>
           {/*</Col>*/}
       {/*</Row>*/}
 
-<Layout hasSider>
+<Layout>
 
-  <Sider
+
+ <Layout className="site-layout" style={{ marginLeft: 100 }}>
+<Sider
       width={100}
       style={{
         overflow: 'auto',
@@ -93,25 +99,37 @@ return<>
         <Menu.Item key="2" icon={<BarChartOutlined />} onClick={()=>navigate('charts')}>
           Charts
         </Menu.Item>
+          <Menu.Item key="3" icon={<BsCompass />} onClick={()=>navigate('discover')}>
+          Discover
+        </Menu.Item>
       </Menu>
     </Sider>
-
- <Layout>
-
       <Content>
-          <Routes>
-              <Route path='/' element={<Toolbar/>}></Route>
+         <Toolbar/>
 
-              <Route path='charts' element={
-                  <Row><Col span={12} offset={12}><DropDownChartMenu/></Col></Row>
+          <Routes>
+
+            <Route path='/' element={
+                   <TradeLog dis={"block"}/>
 
               }></Route>
+              <Route path='charts' element={
+                  <Row><Col span={12}> <ChartsTab/></Col></Row>
+
+              }></Route>
+               <Route path='discover' element={
+                 <NewsFeed/>
+
+              }></Route>
+
 
           </Routes>
       </Content>
     </Layout>
 
 </Layout>
+
+
 </>
 
 }
