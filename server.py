@@ -152,6 +152,7 @@ def getNews():
 
 # Running app
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Runs the app on the public IP
+    app.run(host='0.0.0.0')
 
 
