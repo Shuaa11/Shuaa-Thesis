@@ -30,9 +30,17 @@ jobs:
       - name: Image
         run: |-
             docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
+      - name: Webserver
+        run: |-
+            docker build frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver      
       - run:  gcloud auth configure-docker -q
 
       # Push image to Google Container Registry
       - name: Build
         run: |-
-          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask     
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask    
+      - name: Build
+        run: |-
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
+              
+          
