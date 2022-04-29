@@ -25,7 +25,8 @@ jobs:
           service_account_key: ${{ secrets.GCR_DEVOPS_SERVICE_ACCOUNT_KEY }}
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
-          
+      - name: Downloading the Repository
+        uses: actions/checkout@v2     
       - name: Image
         run: |-
             docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
