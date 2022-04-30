@@ -45,11 +45,11 @@ jobs:
 #         run: |-
 #           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
               
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.GCP_HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.GCP_PORT }}
-          script: whoami
+        - name: Deploy a Cloud Run service
+          id: deploy-service
+          uses: google-github-actions/deploy-cloudrun@v0.1.0
+          with:
+            image: eu.gcr.io/regal-wall-348714/flask
+            service: hello-cloud-run
+            project: ${{ secrets.PROJECT_ID }}
+            credentials: ${{ secrets.GCR_DEVOPS_SERVICE_ACCOUNT_KEY }}
