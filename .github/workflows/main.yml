@@ -7,7 +7,7 @@ on:
     branches: [ master]
   pull_request:
     branches: [ master]
-  workflow_dispatch:
+
 
 
 
@@ -38,9 +38,18 @@ jobs:
       # Push image to Google Container Registry
       - name: Build
         run: |-
-          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask    
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask 
+          
+          
       - name: Build
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
               
-          
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.GCP_PORT }}
+          script: whoami
