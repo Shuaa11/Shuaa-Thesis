@@ -44,7 +44,8 @@ jobs:
 #       - name: Build
 #         run: |-
 #           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
-              
+        - name: Downloading the Repository
+          uses: actions/checkout@v2           
         - name: Deploy a Cloud Run service
           id: deploy-service
           uses: google-github-actions/deploy-cloudrun@v0.1.0
