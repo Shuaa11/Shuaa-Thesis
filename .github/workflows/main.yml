@@ -1,4 +1,4 @@
-name: Ragnarok Madness CI and CD
+name: Trade Website
 
 # Controls when the workflow will run
 
@@ -14,14 +14,33 @@ on:
 jobs:
   cd:
     runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ ubuntu-latest ] # macOS was chosen because of how the runner interprets the file paths. File paths are having problems when used in other runners.
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ] # macOS was chosen because of how the runner interprets the file paths. File paths are having problems when used in other runners.
 
-      steps:
+    steps:
       - name: Initialises the Google Cloud CLI
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@main
         with:
           service_account_key: ${{ secrets.GCR_DEVOPS_SERVICE_ACCOUNT_KEY }}
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
+      - name: Downloading the Repository
+        uses: actions/checkout@v2     
+      - name: Image
+        run: |-
+            docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
+      - name: Webserver
+        run: |-
+            docker build frontend/frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver      
+      - run:  gcloud auth configure-docker -q
+
+      # Push image to Google Container Registry
+      - name: Build
+        run: |-
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask    
+      - name: Build
+        run: |-
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
+              
+          
