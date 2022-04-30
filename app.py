@@ -2,7 +2,7 @@ import datetime
 import json
 import time
 import pandas as pd
-from binance import Client
+# from binance import Client
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
@@ -11,7 +11,7 @@ import joblib
 # from binance.client import Client
 # from binance.enums import *
 #
-client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
+# client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
 
 #First get ETH price
 # eth_price = client.get_symbol_ticker(symbol="BTCUSDT")
