@@ -47,7 +47,7 @@ jobs:
      
         - name: Deploy a Cloud Run service
           id: deploy-service
-          uses: google-github-actions/deploy-cloudrun@v0.1.0
+          uses: google-github-actions/deploy-cloudrun@v0.1.1
           with:
             image: eu.gcr.io/regal-wall-348714/flask
             service: hello-cloud-run
