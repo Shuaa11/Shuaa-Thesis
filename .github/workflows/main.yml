@@ -34,7 +34,7 @@ jobs:
       - name: Deploy
         run: |
           gcloud run deploy flask \
-          --region europe-north1-a \
+          --region europe-north1 \
           --image eu.gcr.io/${{ secrets.PROJECT_ID }}/flask \
           --platform managed \
           --allow-unauthenticated \
