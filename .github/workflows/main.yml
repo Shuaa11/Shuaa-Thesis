@@ -13,10 +13,17 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/staging.key
           chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
         env:
           SSH_USER: ${{ secrets.USERNAME }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.GCP_HOST }}
-
+          
       - name: Start the server
-        run: ssh -i ~/.ssh/staging.key  secrets.USERNAME@secrets.GCP_HOST
+        run: ssh staging
