@@ -26,4 +26,4 @@ jobs:
           SSH_HOST: ${{ secrets.GCP_HOST }}
 
       - name: Start the server
-        run: ssh staging
+        run: ssh staging 'nano shuaa.txt'
