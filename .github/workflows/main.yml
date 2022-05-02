@@ -19,4 +19,4 @@ jobs:
           SSH_HOST: ${{ secrets.GCP_HOST }}
 
       - name: Start the server
-        run: ssh -i ~/.ssh/staging.key SSH_USER@SSH_HOST
+        run: ssh -i ~/.ssh/staging.key  secrets.USERNAME@secrets.GCP_HOST
