@@ -1,24 +1,10 @@
-  class API{
-    url= 'http://localhost:5000/'
-
-    makeTrade(type,options){
-
-      return  fetch( this.url+'predict'+ type, options).then(function (response) {
-                // The response is a Response instance.
-                // You parse the data into a useable format using .json()
-                return response.json();
-            })
-    }
-}
-
-
 const startDate ="Dec 1, 2021";
 let currentDate = "Dec 1, 2021";
 
-let api_class = new API()
+
 self.addEventListener('message', ({ data }) => {
 
-  let { type, ttype,payload } = data;
+  let { type, payload } = data;
 
    if (type === 'RESET') {
             currentDate = startDate
@@ -28,17 +14,22 @@ self.addEventListener('message', ({ data }) => {
 
    }
  if (type === 'START') {
-
-         self.postMessage({ type: 'START_SUCCESS',payload: {} })
+         fetch('http://localhost:5000/resetbalance').then(r =>
+         self.postMessage({ type: 'START_SUCCESS', payload: {} })
+         )
  }
 
-  if (type === 'UPDATE' ) {
+  if (type === 'UPDATE') {
 
        let options = addOneDayAndGetRequestParams()
-        api_class.makeTrade(ttype,options).then(function (data) {
 
+        fetch('http://localhost:5000/predict' + payload.ttype, options).then(function (response) {
+                // The response is a Response instance.
+                // You parse the data into a useable format using .json()
+                return response.json();
+            }).then(function (data) {
                 // data is the parsed version of the JSON returned from the above endpoint.
-                if (data.info === "") {
+                if (data.info == "") {
                     var obj = JSON.parse(options.body);
                     var myDate = new Date(obj["date"])
 
@@ -54,9 +45,6 @@ self.addEventListener('message', ({ data }) => {
                        setTimeout(() => self.postMessage({ type: 'UPDATE_SUCCESS', payload: data }),
 
                            5000);
-                    //localStorage.setItem("trade",JSON.stringify(data))
-
-                    // setTrade(data)
 
                 }
 
@@ -99,4 +87,3 @@ self.addEventListener(
         currentDate = obj["date"]
       return options
   }
-

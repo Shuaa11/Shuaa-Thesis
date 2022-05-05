@@ -32,7 +32,7 @@ const handleReset=(e)=>{
     "today_date": "Dec 1, 2021"
 
     })
-    worker.postMessage({ type: 'RESET',ttype: tradeType, payload: {} });
+    worker.postMessage({ type: 'RESET', payload: {ttype: tradeType} });
     setReset(true)
 
 
@@ -49,7 +49,7 @@ const handleSwitch=(e)=>{
     const handleTradeClick = (e) => {
         e.preventDefault()
         console.log("d")
-        worker.postMessage({ type: 'UPDATE',ttype: tradeType,  payload: {} });
+        worker.postMessage({ type: 'UPDATE', payload: {ttype: tradeType} });
 
 
 
@@ -63,11 +63,11 @@ console.log("procced")
       if (type === 'UPDATE_SUCCESS') {
           console.log("succes update props")
              setTrade(payload)
-           worker.postMessage({ type: 'UPDATE', ttype: tradeType, payload: {} });
+           worker.postMessage({ type: 'UPDATE',payload: {ttype: tradeType} });
       }
        if (type === 'RESET_SUCCESS') {
               worker.terminate()
-             worker = new Worker('/worker.js',{ type: "module" });
+             worker = new Worker('/scripts/worker.js');
 
             setReset(false)
       }
@@ -76,10 +76,10 @@ console.log("procced")
 
 
   console.log("active listener")
-        worker.addEventListener('message', listener);
+            worker.addEventListener('message', listener);
 
 
-        worker.postMessage({ type: 'START',ttype: tradeType, payload: {} });
+        worker.postMessage({ type: 'START', payload: {ttype: tradeType} });
 
 
 return () => {

@@ -7,33 +7,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
 
-# importing binance
-# from binance.client import Client
-# from binance.enums import *
+
 #
 client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
 
-#First get ETH price
-# eth_price = client.get_symbol_ticker(symbol="BTCUSDT")
-# print(eth_price)
-# # Calculate how much ETH $200 can buy
-# buy_quantity = round(1000 / float(eth_price['price']), 5)
-# # Create test order
-# print(buy_quantity)
-# info = client.get_account()
 
-#
-# order = client.create_order(
-#         symbol='BTCUSDT',
-#         side=Client.SIDE_SELL,
-#         type=Client.ORDER_TYPE_MARKET,
-#         quantity=balance['free'],
-#     )
-# trades = client.get_my_trades(symbol="BTCUSDT")
-# print(trades)
-# order2 = client.get_order(
-#     symbol='ETHUSDT',
-#     orderId=)
 
 import numpy as np
 # import NLP_bot
@@ -58,7 +36,7 @@ news = pd.read_pickle("resources/news.txt")
 app = Flask(__name__)
 CORS(app)
 x = {}
-trades =[]
+trades = []
 
 
 
@@ -114,6 +92,7 @@ def tradeLog():
 
 @app.route('/resetbalance')
 def reset_balance():
+    x={}
     trades.clear()
     trade["BTC_USD"]=0.0
     trade["Dollars"]=1000.0
@@ -121,6 +100,13 @@ def reset_balance():
     print("Reset balance called")
     return ""
 
+
+@app.route('/getTrade')
+def get_trade():
+    if len(trades) == 0:
+        return ""
+    else:
+        return x
 def btc_price_today(date):
      date =datetime.datetime.strptime(date, "%b %d, %Y").strftime("%Y-%m-%d")
      indexes=btc_data.index[btc_data['Date'] ==date].tolist()

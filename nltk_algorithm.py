@@ -10,7 +10,7 @@ from news_training_set_creator import NewsTrainingSetCreator
 
 class NLTKAlgorithm:
     def __init__(self):
-        self.pred2 = None
+        self.prediction = []
         training_set_creator = NewsTrainingSetCreator()
         self.news = training_set_creator.return_generated_test_set()
         self.lemmatize_words()
@@ -42,11 +42,11 @@ class NLTKAlgorithm:
 
         nb_classifier.fit(X_train, y_train)
 
-        self.pred2 = nb_classifier.predict(X_test)
+        self.prediction = nb_classifier.predict(X_test)
 
         # Serialization
     def serialize(self):
-        json_str = json.dumps(self.pred2.tolist())
+        json_str = json.dumps(self.prediction.tolist())
 
         with open('resources/predict.json', 'w') as outfile:
             json.dump(json_str, outfile)

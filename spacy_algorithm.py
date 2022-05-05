@@ -20,7 +20,7 @@ class SpacyAlgorithm:
     def __init__(self):
         self.stopwords = list(STOP_WORDS)
 
-        self.y_pred = None
+        self.prediction = []
         training_set_creator = NewsTrainingSetCreator()
         self.news = training_set_creator.return_generated_test_set()
 
@@ -56,12 +56,12 @@ class SpacyAlgorithm:
         classifier = LinearSVC()
         clf = Pipeline([('tfidf', tfidf), ('clf', classifier)])
         clf.fit(X_train, y_train)
-        self.y_pred = clf.predict(X_test)
+        self.prediction = clf.predict(X_test)
 
         # Serialization
 
     def serialize(self):
-        json_str = json.dumps(self.y_pred.tolist())
+        json_str = json.dumps(self.prediction.tolist())
 
         with open('resources/predict-2.json', 'w') as outfile:
             json.dump(json_str, outfile)

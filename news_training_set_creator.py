@@ -13,8 +13,9 @@ class NewsTrainingSetCreator:
         self.write_generated_news_file_to_text()
 
     news = pd.read_csv('resources/Crypto-News-Data2.csv')
-    btc_data = pd.read_csv('resources/BTC-USD2.csv')
-    btc_data = btc_data[::-1].reset_index(drop=True)
+    bitcoin_historical_data = pd.read_csv('resources/BTC-USD2.csv')
+    bitcoin_historical_data = bitcoin_historical_data[::-1].reset_index(drop=True)
+    data_dict = {}
 
     def remove_text(self):
         # Removing the text after Image credits
@@ -24,24 +25,25 @@ class NewsTrainingSetCreator:
             self.news['Info'][ind] = head
 
     def create_change_column(self):
-        self.btc_data['Change'] = pd.Series(dtype='object')
+        self.bitcoin_historical_data['Change'] = pd.Series(dtype='object')
         self.news['Change'] = pd.Series(dtype='object')
 
-        for ind in self.btc_data.index:
-            if ind == len(self.btc_data) - 1:
-                self.btc_data['Change'][ind] = str(0)
+        for ind in self.bitcoin_historical_data.index:
+            if ind == len(self.bitcoin_historical_data) - 1:
+                self.bitcoin_historical_data['Change'][ind] = str(0)
             else:
-                change = ((self.btc_data['Close'][ind] - self.btc_data['Close'][ind + 1]) / self.btc_data['Close'][
-                    ind]) * 100
-                self.btc_data['Change'][ind] = str(round(change, 2))
-        self.area_dict = dict(zip(self.btc_data['Date'], self.btc_data['Change']))
+                change = ((self.bitcoin_historical_data['Close'][ind] - self.bitcoin_historical_data['Close'][
+                    ind + 1]) / self.bitcoin_historical_data['Close'][
+                              ind]) * 100
+                self.bitcoin_historical_data['Change'][ind] = str(round(change, 2))
+        self.data_dict = dict(zip(self.bitcoin_historical_data['Date'], self.bitcoin_historical_data['Change']))
 
     def label_data(self):
         for ind in self.news.index:
             date1 = datetime.datetime.strptime(self.news['Date'][ind], "%b %d, %Y")
             date1 += datetime.timedelta(days=1)
             date2 = date1.strftime("%Y-%m-%d")
-            if self.area_dict.get(date2).startswith("-"):
+            if self.data_dict.get(date2).startswith("-"):
                 self.news['Change'][ind] = "Negative"
             else:
                 self.news['Change'][ind] = "Positive"

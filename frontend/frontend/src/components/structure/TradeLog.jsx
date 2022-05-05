@@ -9,19 +9,9 @@ const [day, setDay] = useState("Dec 1, 2021");
 
 const [logs, setLogs] = useState([])
 useEffect(()=>{
-    setInterval(()=>{
-          fetch('http://localhost:5000/tradeLog').then(function(response) {
-            // The response is a Response instance.
-
-            // You parse the data into a useable format using .json()
-            return response.json();
-          }).then(function(data) {
-             setLogs(data)
-          });
-    },5100)
-
-},[])
-
+    setLogs(props.logs)
+},[props.logs])
+console.log("created trade log")
 return<>
     <div style={{display:props.dis}}>
     <h2 style={{padding:"6px",borderBottom:"1px solid #9b9e9c", backgroundColor:"#81b7cc",color:"white"}} >
