@@ -33,8 +33,5 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip3 install --upgrade pip3
-          pip3 install -r requirements.txt --use-deprecated=legacy-resolver
-          pip3 install .
-      - name: Run unit tests
-        run: python -m pytest --import-mode=append test_app.py
+          sudo apt-get -y install python3-pip
+          pip3 --version
