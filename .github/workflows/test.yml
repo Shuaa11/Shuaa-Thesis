@@ -5,7 +5,62 @@ on:
 jobs:
   # test:
   #   ...
-  deploy:
+   build:
+    strategy:
+      matrix:
+        python-version: [3.9.*]
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Switch to Current Branch
+        run: git checkout ${{ env.BRANCH }}
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get -y install python3-pip
+          pip3 --version
+          pip3 install -r requirements.txt --use-deprecated=legacy-resolver
+
+      - name: Run Tests
+        run: pytest test_app.py
+
+      - name: Initialises the Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@main
+        with:
+         service_account_key: ${{ secrets.GCR_DEVOPS_SERVICE_ACCOUNT_KEY }}
+         project_id: ${{ secrets.PROJECT_ID }}
+         export_default_credentials: true
+      - name: Downloading the Repository
+        uses: actions/checkout@v2
+      - name: Image
+        run: |-
+            docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
+      - name: Webserver
+        run: |-
+            docker build frontend/frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver
+      - run:  gcloud auth configure-docker -q
+
+     # Push image to Google Container Registry
+      - name: Build
+        run: |-
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask 
+
+
+      - name: Build
+        run: |-
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
+   deploy:
     name: "Deploy to staging"
     runs-on: ubuntu-latest
    
