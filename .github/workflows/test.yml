@@ -83,4 +83,4 @@ jobs:
             SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
             SSH_HOST: ${{ secrets.GCP_HOST }}
       - name: Start the server
-        run: ssh staging 'sudo docker system prune -f && sudo docker-compose up -d'
+        run: ssh staging
