@@ -49,11 +49,11 @@ jobs:
       - name: Downloading the Repository
         uses: actions/checkout@v2
       - name: Image
-             run: |-
-                 docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
+        run: |-
+            docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
       - name: Webserver
         run: |-
-           docker build frontend/frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver
+            docker build frontend/frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver
       - run:  gcloud auth configure-docker -q
 
      # Push image to Google Container Registry
