@@ -9,7 +9,7 @@ import joblib
 
 
 #
-client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
+# client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
 
 
 
@@ -97,7 +97,6 @@ def reset_balance():
     trade["BTC_USD"]=0.0
     trade["Dollars"]=1000.0
     trade["BTC_Balance"] =0.0
-    print("Reset balance called")
     return ""
 
 
@@ -142,3 +141,27 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0')
 
 
+
+#
+# # First get ETH price
+# eth_price = client.get_symbol_ticker(symbol="BTCUSDT")
+# print(eth_price)
+# # Calculate how much ETH $200 can buy
+# buy_quantity = round(1000 / float(eth_price['price']), 5)
+# # Create test order
+# print(buy_quantity)
+# info = client.get_account()
+#
+#
+# order = client.create_order(
+#         symbol='BTCUSDT',
+#         side=Client.SIDE_SELL,
+#         type=Client.ORDER_TYPE_MARKET,
+#         quantity=balance['free'],
+#     )
+# trades = client.get_my_trades(symbol="BTCUSDT")
+# print(trades)
+# order2 = client.get_order(
+#     symbol='ETHUSDT',
+#     orderId=)
+#

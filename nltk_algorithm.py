@@ -2,7 +2,7 @@ import json
 import re
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.naive_bayes import GaussianNB
 
 from news_training_set_creator import NewsTrainingSetCreator
@@ -13,10 +13,9 @@ class NLTKAlgorithm:
         self.prediction = []
         training_set_creator = NewsTrainingSetCreator()
         self.news = training_set_creator.return_generated_test_set()
-        self.lemmatize_words()
+        self.preprocess_data()
 
-
-    def lemmatize_words(self):
+    def preprocess_data(self):
         lemmatizer = WordNetLemmatizer()
         words = stopwords.words("english")
 
@@ -24,9 +23,9 @@ class NLTKAlgorithm:
             [lemmatizer.lemmatize(i) for i in re.sub("[^a-zA-Z]", " ", x).split() if i not in words]).lower())
 
     def generate_nltk_training_sets(self):
-        cv = CountVectorizer(max_features=1500)
+        vectorizer = TfidfVectorizer()
 
-        X = cv.fit_transform(self.news['processedtext'])
+        X = vectorizer.fit_transform(self.news['processedtext'])
         X = X.toarray()
         y = self.news['Change']
 
@@ -37,7 +36,7 @@ class NLTKAlgorithm:
 
         return X_train, X_test, y_train, y_test
 
-    def make_prediction(self,X_train,y_train,X_test):
+    def make_prediction(self, X_train, y_train, X_test):
         nb_classifier = GaussianNB()
 
         nb_classifier.fit(X_train, y_train)
@@ -45,6 +44,7 @@ class NLTKAlgorithm:
         self.prediction = nb_classifier.predict(X_test)
 
         # Serialization
+
     def serialize(self):
         json_str = json.dumps(self.prediction.tolist())
 
@@ -53,5 +53,5 @@ class NLTKAlgorithm:
 
     def make_prediction_and_serialize(self):
         X_train, X_test, y_train, y_test = self.generate_nltk_training_sets()
-        self.make_prediction( X_train,y_train ,X_test)
+        self.make_prediction(X_train, y_train, X_test)
         self.serialize()

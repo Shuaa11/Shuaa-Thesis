@@ -1,8 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Col, Row} from "antd";
-import Toolbar from "../toolbar";
-import DropDownChartMenu from "../DropdownMenu";
-import NewsFeed from "../NewsFeed";
 export default function TradeLog(props){
 const [day, setDay] = useState("Dec 1, 2021");
 
@@ -31,7 +27,7 @@ return<>
       logs.map(log=>{
           return <li style={{padding:"5px",borderBottom:"1px solid black"}}>
               <p style={{display:"inline"}} >{log.today_date}</p>
-              <p style={{paddingLeft:"10px",display:"inline", color:log.result=="SELL" ? "#FF3131" : "#39FF14"}}> {log.result}</p>
+              <p style={{paddingLeft:"10px",display:"inline", color: log.result==="SELL" ? '#FF4560' : log.result==="BUY"? "green":"#87CEEB"}}> {log.result}</p>
               <p style={{paddingLeft:"10px",display:"inline"}} >${Number(log.usd_balance).toFixed(2) }</p>
               <p style={{paddingLeft:"10px",display:"inline"}} >{Number(log.btc_balance).toFixed(3) }</p>
 

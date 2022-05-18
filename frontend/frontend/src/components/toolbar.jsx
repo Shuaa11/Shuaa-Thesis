@@ -1,16 +1,38 @@
 import React, {useEffect, useRef, useState} from "react";
 import { BsArrowCounterclockwise } from "react-icons/bs";
-import DemoDropDownMenu from "./DemoDropDownMenu";
-import DropDownChartMenu from "./DropdownMenu";
-import {Col, Row,Switch, Button} from "antd";
+import {Col, Row, Switch, Button, Menu, Dropdown} from "antd";
+import {DownOutlined} from "@ant-design/icons";
 let worker = new Worker('/scripts/worker.js');
 let activeListener =false
 export default function Toolbar({props,route})
 
 {
+const [live, setLive] = useState(false)
+const [demo, setDemo] = useState(true)
+const handleLiveClick = (e) => {
+       e.preventDefault()
+        if(live){
+            setLive(false)
+            setDemo(true)
+        }else{
+                    setLive(true)
+            setDemo(false)
+        }
+        handleReset(e);
+
+
+};
+
+const menu = (
+    <Menu>
+        <Menu.Item key="0">
+          <a href="" onClick={handleLiveClick} >Switch to {live ? "demo":"live"}</a>
+        </Menu.Item>
+      </Menu>
+);
+
+
 const [day, setDay] = useState("Dec 1, 2021");
-const[refresh, setRefresh] = useState(true)
-const [spacy, setSpacy] =useState(true)
 const[tradeType, setTradeType] = useState("SPACY")
 const[reset, setReset] = useState(false)
 const mounted = useRef(false);
@@ -116,13 +138,18 @@ return () => {
               <Col  style={{color:"white"}} xs={3}  lg={2}>Bitcoin Balance<span style={{display:"block"}}>BTC {Number(trade.btc_balance).toFixed(4)}</span></Col>
               <Col style={{color:"white"}} xs={3} lg={2}>Action<span style={{color: trade.result =="SELL" ? "#FF3131" : "#39FF14", fontWeight:"900", display:"block"}}>{trade.result}</span></Col>
                 <Col style={{color:"white"}} xs={3} lg={2}>Bitcoin price<span style={{display:"block"}}>${trade.price}</span></Col>
-                <Col style={{color:"white"}} xs={3} lg={2}><DemoDropDownMenu/></Col>
+                <Col style={{color:"white"}} xs={3} lg={2}> <Dropdown overlay={menu} trigger={['click']}>
+        <a style={{color:"white"}} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            {live? "LIVE" : "DEMO"}
+                    <DownOutlined />
+
+        </a>
+  </Dropdown></Col>
 
         </Row>
 
     </div>
 }
-//<img src={"header/header_overlay.png"} style ={{width:"100%"}}/>
 function activeListenerExists(){
     return localStorage.getItem("listener") !== null;
 

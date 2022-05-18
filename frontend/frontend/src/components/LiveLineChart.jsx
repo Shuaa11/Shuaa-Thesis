@@ -12,21 +12,7 @@ import * as ApexCharts from "apexcharts";
   let data = []
   let TICKINTERVAL = 86400000
   let XAXISRANGE = 777600000
-  function getNewSeries() {
- fetch('http://localhost:5000/getTrade')
-        .then((response) => response.json())
-        .then(resData => {
-        if (resData.info===""){
-            data =[]
-        }else{
-              data.push({
-      x: resData.today_date,
-      y: resData.price
-    })
-        }
 
-  });
-  }
 class LiveLineChart extends React.Component {
         constructor(props) {
           super(props);
@@ -34,9 +20,11 @@ class LiveLineChart extends React.Component {
           this.state = {
             logs:[],
             series: [{
+                name:"$",
               data: data.slice()
             }],
             options: {
+
               chart: {
                 id: 'realtime',
                 height: 350,
@@ -65,12 +53,18 @@ class LiveLineChart extends React.Component {
                 text: 'Live Trading',
                 align: 'left'
               },
+                grid: {
+                padding: {
+                  right: 30,
+                  left: 20
+                }
+              },
               markers: {
                 size: 0
               },
               xaxis: {
                   type: 'datetime',
-                range: XAXISRANGE,
+                   range: XAXISRANGE,
               },
              itle: {
                    text : "Price $",
@@ -92,13 +86,16 @@ class LiveLineChart extends React.Component {
             if (nextProps.logs !== this.state.logs){
                 this.setState({logs : nextProps.logs})
                 if (this.state.logs.length!=0){
-                                     data.push({
+
+                    data.push({
                   x: this.state.logs[0].today_date,
-                  y: this.state.logs[0].price
-    })
+                  y: Number(this.state.logs[0].price).toFixed(0)
+                    })
 
                     action = this.state.logs[0].result
-                    console.log(action)
+                    if(points.length==10){
+                        points.shift()
+                    }
                     points.push({
                   x: new Date(data[data.length-1].x).getTime(),
                   y: data[data.length-1].y,

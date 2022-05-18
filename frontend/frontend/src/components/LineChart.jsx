@@ -1,7 +1,5 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts"
-import CandleChart from "./CandleChart";
-import {Col, Row} from "antd";
 
 class LineChart extends React.Component {
         constructor(props) {
@@ -28,7 +26,7 @@ class LineChart extends React.Component {
                 curve: 'straight'
               },
               title: {
-                text: 'Chart',
+                text: props.name+' Chart',
                 align: 'left'
               },
               grid: {

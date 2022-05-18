@@ -5,27 +5,18 @@ import { BsGraphUp , BsCompass } from "react-icons/bs";
 import styles from "./styles/Menu.module.css"
 import DropDownChartMenu from "./components/DropdownMenu";
 import Toolbar from "./components/toolbar";
-import LogsChart from "./components/LogsChart";
 import ChartsTab from "./components/ChartsTab";
 import LiveLineChart from "./components/LiveLineChart";
 import {
   BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UserOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
+
 } from '@ant-design/icons';
 import {Col, Row, Switch} from "antd";
 import NewsFeed from "./components/NewsFeed";
 import TradeLog from "./components/structure/TradeLog";
-import DemoDropDownMenu from "./components/DemoDropDownMenu";
 function App() {
     const [tradeData,setTradeData] =useState([])
-        const { pathname } = useLocation();
-    let count=0
-    const navigate = useNavigate()
+
     const [showCharts,setShowCharts] = useState(false)
     const { Header, Content, Sider } = Layout;
     const [showGraph, setShowGraph]= useState(false)
@@ -34,13 +25,7 @@ function App() {
 const handleGraphClick=(e)=>{
     setShowGraph(true)
 }
-const displayGraph=()=>{
-        if (showGraph == true){
-            return <Row><Col span={12} offset={12}>
-                <DropDownChartMenu></DropDownChartMenu>
-            </Col></Row>
-        }
-    }
+
 const handleTradeClick=()=>{
         setShowTrade(true)
     setDiscover(false)
@@ -70,22 +55,7 @@ const handleChartsClick=()=>{
     },5000)
     },[])
 return<>
-       {/*<Toolbar  ></Toolbar>*/}
-    {/*<App />*/}
-    {/*  <Row>*/}
-          {/*<Col span={6}>*/}
-                  {/*<TradeLog ></TradeLog>*/}
 
-          {/*/!*})}*!/*/}
-          {/*</Col>*/}
-          {/*<Col span = {12}>*/}
-          {/*        <DropDownChartMenu></DropDownChartMenu>*/}
-
-          {/*</Col>*/}
-          {/*<Col  span= {6} >*/}
-          {/*    <NewsFeed></NewsFeed>*/}
-          {/*</Col>*/}
-      {/*</Row>*/}
 
 <Layout>
 
@@ -127,28 +97,7 @@ return<>
 
                   </Row>
             : null}
-      {/*    <Routes>*/}
 
-      {/*      <Route path='/' element={*/}
-      {/*            <Row><Col span={12}> <TradeLog logs={tradeData}/>*/}
-      {/*            </Col>*/}
-
-      {/*            <Col span={12}> <LiveLineChart  logs={tradeData}/> </Col>*/}
-
-      {/*            </Row>*/}
-
-      {/*      }> </Route>*/}
-      {/*        <Route path='charts' element={*/}
-      {/*            <Row><Col span={12}> <ChartsTab/></Col></Row>*/}
-
-      {/*        }></Route>*/}
-      {/*         <Route path='discover' element={*/}
-      {/*           <NewsFeed/>*/}
-
-      {/*        }></Route>*/}
-
-
-      {/*    </Routes>*/}
       </Content>
     </Layout>
 

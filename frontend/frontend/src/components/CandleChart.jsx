@@ -1,6 +1,5 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts"
-import {Col, Row} from "antd";
 
 class CandleChart extends React.Component {
         constructor(props) {
@@ -17,7 +16,7 @@ class CandleChart extends React.Component {
                   margin:"auto"
               },
               title: {
-                text: props.name+'Historical Data'
+                text: props.name+' Historical Data'
               },
               xaxis: {
                 type: 'datetime'
