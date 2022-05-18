@@ -1,16 +1,11 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
-on:
+on: 
   push:
     branches: [main]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  # test:
+  #   ...
+   build:
     strategy:
       matrix:
         python-version: [3.9.*]
@@ -65,21 +60,29 @@ jobs:
       - name: Build
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
+   deploy:
+    needs: build
+    name: "Deploy to staging"
+    runs-on: ubuntu-latest
+   
+    steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-            echo "$SSH_KEY" > ~/.ssh/staging.key
-            chmod 600 ~/.ssh/staging.key
-            cat >>~/.ssh/config <<END
-            Host staging
-              HostName $SSH_HOST
-              User $SSH_USER
-              IdentityFile ~/.ssh/staging.key
-              StrictHostKeyChecking no
-            END
-          env:
-            SSH_USER: ${{ secrets.USERNAME }}
-            SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-            SSH_HOST: ${{ secrets.GCP_HOST }}
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.GCP_HOST }}
+
+
       - name: Start the server
-        run: ssh staging 'sudo docker system prune -f && sudo docker-compose up -d'
+        run: ssh staging
