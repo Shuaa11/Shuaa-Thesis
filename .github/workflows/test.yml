@@ -65,12 +65,3 @@ jobs:
       - name: Build
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
-
-      - name: Deploy a Cloud Run service
-        id: deploy-service
-        uses: google-github-actions/deploy-cloudrun@v0.1.1
-        with:
-          image: eu.gcr.io/regal-wall-348714/flask
-          service: hello-cloud-run
-          project: ${{ secrets.PROJECT_ID }}
-          credentials: ${{ secrets.GCR_DEVOPS_SERVICE_ACCOUNT_KEY }}
