@@ -61,6 +61,7 @@ jobs:
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
    deploy:
+    needs: build
     name: "Deploy to staging"
     runs-on: ubuntu-latest
    
