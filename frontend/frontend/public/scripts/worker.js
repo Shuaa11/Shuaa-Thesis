@@ -8,13 +8,13 @@ self.addEventListener('message', ({ data }) => {
 
    if (type === 'RESET') {
             currentDate = startDate
-         fetch('http://localhost:5000/resetbalance').then(r =>
+         fetch('http://'+window.location.hostname+':5000/resetbalance').then(r =>
          self.postMessage({ type: 'RESET_SUCCESS', payload: {} })
          )
 
    }
  if (type === 'START') {
-         fetch('http://localhost:5000/resetbalance').then(r =>
+         fetch('http://'+window.location.hostname+':5000/resetbalance').then(r =>
          self.postMessage({ type: 'START_SUCCESS', payload: {} })
          )
  }
@@ -23,7 +23,7 @@ self.addEventListener('message', ({ data }) => {
 
        let options = addOneDayAndGetRequestParams()
 
-        fetch('http://localhost:5000/predict' + payload.ttype, options).then(function (response) {
+        fetch('http://'+window.location.hostname+':5000/predict' + payload.ttype, options).then(function (response) {
                 // The response is a Response instance.
                 // You parse the data into a useable format using .json()
                 return response.json();

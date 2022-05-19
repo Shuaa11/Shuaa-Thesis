@@ -43,7 +43,7 @@ const handleChartsClick=()=>{
 }
     useEffect(()=>{
         setInterval(()=>{
-         fetch('http://localhost:5000/tradeLog').then(function(response) {
+         fetch('http://'+window.location.hostname+':5000/tradeLog').then(function(response) {
             // The response is a Response instance.
 
             // You parse the data into a useable format using .json()

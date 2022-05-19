@@ -69,7 +69,7 @@ class LineChart extends React.Component {
           })
         }
         componentDidMount() {
-           fetch('http://localhost:5000/'+ this.props.name+'_candlestick')
+           fetch('http://'+window.location.hostname+':5000/'+ this.props.name+'_candlestick')
         .then((response) => response.json())
         .then(data => {
             let numbers =[]

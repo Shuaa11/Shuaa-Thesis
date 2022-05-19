@@ -85,4 +85,4 @@ jobs:
 
 
       - name: Start the server
-        run: ssh staging
+        run: ssh staging 'sudo docker system prune -f && sudo docker-compose up -d'

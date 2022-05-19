@@ -2,11 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import {Col, Row, Switch, Button, Menu, Dropdown} from "antd";
 import {DownOutlined} from "@ant-design/icons";
+import axios from 'axios'
 let worker = new Worker('/scripts/worker.js');
 let activeListener =false
 export default function Toolbar({props,route})
-
 {
+
+
 const [live, setLive] = useState(false)
 const [demo, setDemo] = useState(true)
 const handleLiveClick = (e) => {
@@ -78,6 +80,7 @@ const handleSwitch=(e)=>{
 
     }
 useEffect(()=>{
+    getData()
 console.log("procced")
     mounted.current = true;
   const listener = ({ data: { type, payload } }) => {
@@ -115,7 +118,7 @@ return () => {
 
 
   function getPerformance() {
-        fetch('http://localhost:5000/performance').then(function(response) {
+        fetch('http://'+window.location.hostname+':5000/performance').then(function(response) {
             // The response is a Response instance.
 
             // You parse the data into a useable format using .json()

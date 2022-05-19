@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Col, Row} from "antd";
 export default function NewsFeed(){
+
+
 const [news, setNews] = useState([])
 
     useEffect(()=>{
-          fetch('http://localhost:5000/getNews').then(function(response) {
+          fetch('http://'+window.location.hostname+':5000/getNews').then(function(response) {
     // The response is a Response instance.
 
     // You parse the data into a useable format using .json()
