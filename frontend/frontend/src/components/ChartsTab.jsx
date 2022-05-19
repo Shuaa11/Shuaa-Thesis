@@ -6,12 +6,10 @@ import DropDownChartMenu from "./DropdownMenu";
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
+
 
 export default () => (
-  <Tabs onChange={callback} type="card">
+  <Tabs  type="card">
     <TabPane tab="ETH/USD" key="1">
       <DropDownChartMenu name={"etherum"}/>
     </TabPane>

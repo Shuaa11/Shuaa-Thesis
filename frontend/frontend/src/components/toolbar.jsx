@@ -56,7 +56,7 @@ const handleReset=(e)=>{
     "today_date": "Dec 1, 2021"
 
     })
-    worker.postMessage({ type: 'RESET', payload: {ttype: tradeType} });
+    worker.postMessage({ type: 'RESET', payload: {ttype: tradeType, IP: window.location.hostname} });
     setReset(true)
 
 
@@ -73,7 +73,7 @@ const handleSwitch=(e)=>{
     const handleTradeClick = (e) => {
         e.preventDefault()
         console.log("d")
-        worker.postMessage({ type: 'UPDATE', payload: {ttype: tradeType} });
+        worker.postMessage({ type: 'UPDATE', payload: {ttype: tradeType, IP: window.location.hostname} });
 
 
 
@@ -87,7 +87,7 @@ console.log("procced")
       if (type === 'UPDATE_SUCCESS') {
           console.log("succes update props")
              setTrade(payload)
-           worker.postMessage({ type: 'UPDATE',payload: {ttype: tradeType} });
+           worker.postMessage({ type: 'UPDATE',payload: {ttype: tradeType , IP: window.location.hostname} });
       }
        if (type === 'RESET_SUCCESS') {
               worker.terminate()
@@ -103,7 +103,7 @@ console.log("procced")
             worker.addEventListener('message', listener);
 
 
-        worker.postMessage({ type: 'START', payload: {ttype: tradeType} });
+        worker.postMessage({ type: 'START', payload: {ttype: tradeType, IP: window.location.hostname} });
 
 
 return () => {
@@ -132,7 +132,6 @@ return () => {
     return <div style={{backgroundColor:'#596780' ,padding:"5px"}}>
         {/*<Divider orientation="left">sub-element align right</Divider>*/}
             <Row justify="end" >
-                <Col style={{color:"white"}}  xs={3} lg={2}>Hi I am new here</Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Button type="primary"  onClick={handleReset} icon={<BsArrowCounterclockwise/>}></Button></Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Button type="primary"  onClick={handleTradeClick}>Trade</Button></Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Switch onChange={handleSwitch} checkedChildren="NLTK" unCheckedChildren="spaCy" /></Col>
