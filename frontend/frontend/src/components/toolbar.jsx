@@ -8,7 +8,7 @@ let activeListener =false
 export default function Toolbar({props,route})
 {
 
-
+console.log(window.location.host)
 const [live, setLive] = useState(false)
 const [demo, setDemo] = useState(true)
 const handleLiveClick = (e) => {
@@ -132,6 +132,7 @@ return () => {
     return <div style={{backgroundColor:'#596780' ,padding:"5px"}}>
         {/*<Divider orientation="left">sub-element align right</Divider>*/}
             <Row justify="end" >
+                <Col style={{color:"white"}}  xs={3} lg={2}>Hi I am new here</Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Button type="primary"  onClick={handleReset} icon={<BsArrowCounterclockwise/>}></Button></Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Button type="primary"  onClick={handleTradeClick}>Trade</Button></Col>
                 <Col style={{color:"white"}}  xs={3} lg={2}><Switch onChange={handleSwitch} checkedChildren="NLTK" unCheckedChildren="spaCy" /></Col>
