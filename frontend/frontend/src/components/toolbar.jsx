@@ -80,7 +80,6 @@ const handleSwitch=(e)=>{
 
     }
 useEffect(()=>{
-    getData()
 console.log("procced")
     mounted.current = true;
   const listener = ({ data: { type, payload } }) => {
