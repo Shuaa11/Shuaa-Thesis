@@ -56,7 +56,6 @@ class CandleChart extends React.Component {
             for (var i =0;i<data.length;i++){
                 numbers.push([data[i].Date,data[i].Open,data[i].High,data[i].Low,data[i].Close])
             }
-            console.log(numbers)
            this.updateState(numbers)
         });
         }

@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import CandleChart from "./CandleChart";
+import LineChart from "./LineChart";
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined , SlidersOutlined} from '@ant-design/icons';
 
 import { VscGraphLine } from "react-icons/vsc";
-import LineChart from "./LineChart";
+
 
 
 export default function DropDownChartMenu(props){

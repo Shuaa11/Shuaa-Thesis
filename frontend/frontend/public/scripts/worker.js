@@ -1,11 +1,11 @@
-const startDate ="Dec 1, 2021";
-let currentDate = "Dec 1, 2021";
+const startDate ="Mar 1, 2022";
+let currentDate = "Mar 1, 2022";
 
 
 self.addEventListener('message', ({ data }) => {
 
   let { type, payload } = data;
-
+tradeT = payload.ttype
    if (type === 'RESET') {
             currentDate = startDate
          fetch('http://'+ payload.IP +':5000/resetbalance').then(r =>
@@ -23,7 +23,7 @@ self.addEventListener('message', ({ data }) => {
 
        let options = addOneDayAndGetRequestParams()
 
-        fetch('http://'+payload.IP+':5000/predict' + payload.ttype, options).then(function (response) {
+        fetch('http://'+payload.IP+':5000/predict' + tradeT, options).then(function (response) {
                 // The response is a Response instance.
                 // You parse the data into a useable format using .json()
                 return response.json();
@@ -32,9 +32,9 @@ self.addEventListener('message', ({ data }) => {
                 if (data.info == "") {
                     var obj = JSON.parse(options.body);
                     var myDate = new Date(obj["date"])
-
+                     fetch('http://'+ payload.IP +':5000/performance')
                      self.postMessage({ type: 'UPDATE_END', payload:{
-                        "result": "End of simulation",
+                        "result": "END",
                         "price": 0,
                         "usd_balance": 0,
                         "btc_balance": 0,
@@ -42,7 +42,7 @@ self.addEventListener('message', ({ data }) => {
                     }  });
 
                 } else {
-                       setTimeout(() => self.postMessage({ type: 'UPDATE_SUCCESS', payload: data }),
+                       setTimeout(() => self.postMessage({ type: 'UPDATE_SUCCESS', payload:{data:data,type:tradeT }  }),
 
                            5000);
 

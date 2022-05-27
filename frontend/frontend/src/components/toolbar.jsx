@@ -34,7 +34,7 @@ const menu = (
 );
 
 
-const [day, setDay] = useState("Dec 1, 2021");
+const [day, setDay] = useState("Mar 1, 2022");
 const[tradeType, setTradeType] = useState("SPACY")
 const[reset, setReset] = useState(false)
 const mounted = useRef(false);
@@ -47,13 +47,12 @@ const [trade, setTrade] = useState({
 });
 
 const handleReset=(e)=>{
-    setDay("Dec 1, 2021")
     setTrade({
         "result": "START",
     "price": 0,
     "usd_balance": 1000,
     "btc_balance": 0,
-    "today_date": "Dec 1, 2021"
+    "today_date": day
 
     })
     worker.postMessage({ type: 'RESET', payload: {ttype: tradeType, IP: window.location.hostname} });
@@ -72,7 +71,6 @@ const handleSwitch=(e)=>{
 }
     const handleTradeClick = (e) => {
         e.preventDefault()
-        console.log("d")
         worker.postMessage({ type: 'UPDATE', payload: {ttype: tradeType, IP: window.location.hostname} });
 
 
@@ -86,14 +84,18 @@ console.log("procced")
       console.log(type, payload);
       if (type === 'UPDATE_SUCCESS') {
           console.log("succes update props")
-             setTrade(payload)
-           worker.postMessage({ type: 'UPDATE',payload: {ttype: tradeType , IP: window.location.hostname} });
+             setTrade(payload.data)
+          console.log("trade type frontend: "+ payload.type)
+           worker.postMessage({ type: 'UPDATE',payload: {ttype: payload.type , IP: window.location.hostname} });
       }
        if (type === 'RESET_SUCCESS') {
               worker.terminate()
              worker = new Worker('/scripts/worker.js');
 
             setReset(false)
+      }
+       if (type === 'UPDATE_END') {
+              setTrade(payload)
       }
     };
 
@@ -102,7 +104,7 @@ console.log("procced")
   console.log("active listener")
             worker.addEventListener('message', listener);
 
-
+console.log("start trading" + tradeType)
         worker.postMessage({ type: 'START', payload: {ttype: tradeType, IP: window.location.hostname} });
 
 

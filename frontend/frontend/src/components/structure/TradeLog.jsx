@@ -7,7 +7,6 @@ const [logs, setLogs] = useState([])
 useEffect(()=>{
     setLogs(props.logs)
 },[props.logs])
-console.log("created trade log")
 return<>
     <div style={{display:props.dis}}>
     <h2 style={{padding:"6px",borderBottom:"1px solid #9b9e9c", backgroundColor:"#81b7cc",color:"white"}} >

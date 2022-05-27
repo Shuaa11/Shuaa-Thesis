@@ -1,20 +1,7 @@
 import datetime
-import json
-import time
 import pandas as pd
-from binance import Client
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import joblib
-
-
-#
-# client = Client("KonFtpiFoP6v0TuoxrdiRPiKYt9FWFcW6ZBECkwO0Dynn1nBpRtzMujTY3Tk4rTJ", "fp3AlXJ4JdTDTViRAUIkkHxZZDyhLKWrwZ7zPWLwUXwboR7ukK8WKlcp5H7iR8Iz", testnet=True)
-
-
-
-import numpy as np
-# import NLP_bot
 from logic import get_date_prediction
 
 # opening the BTC Historical data
@@ -30,11 +17,11 @@ eth_usd = pd.read_csv('resources/ETH-USD.csv', usecols=["Date", "Open", "High", 
 eth_usd_df = pd.DataFrame(eth_usd)
 
 # Reading news
-
 news = pd.read_pickle("resources/news.txt")
-# news = pd.read_csv('Crypto-News-Data2.csv', usecols=["Date","Title"])
 app = Flask(__name__)
 CORS(app)
+
+# Trade history
 x = {}
 trades = []
 
@@ -42,7 +29,6 @@ trades = []
 
 @app.route('/predictNLTK', methods=["POST"])
 def predictNLTK():
-    print("NLTK")
     date = request.json
     if get_date_prediction(date["date"],"NLTK") == "":
         return {"info":""}
@@ -76,14 +62,15 @@ def predictSPACY():
 
 @app.route('/performance')
 def performance():
-    result ={"bought" :0, "sell":0, "final_trade":0}
-    result["bought"] = trades[-1]["usd_balance"]/trades[-1]["price"]
+    bought = 0
+    result ={"money_bot_made":0, "money_trader_made":0}
+    bought = 1000/trades[-1]["price"]
     if trades[0]["btc_balance"] ==0:
-         result["final_trade"] = trades[0]["usd_balance"]
+         result["money_bot_made"] = trades[0]["usd_balance"]
     else:
-        result["final_trade"] = trades[0]["btc_balance"] * trades[0]["price"]
-    result["sell"] = result["bought"] * trades[0]["price"]
-    return result
+        result["money_bot_made"] = trades[0]["btc_balance"] * trades[0]["price"]
+    result["money_trader_made"] = bought * trades[0]["price"]
+    return ""
 
 @app.route('/tradeLog')
 def tradeLog():
@@ -139,29 +126,3 @@ def getNews():
 if __name__ == '__main__':
     # Runs the app on the public IP
     app.run(host='0.0.0.0')
-
-
-
-#
-# # First get ETH price
-# eth_price = client.get_symbol_ticker(symbol="BTCUSDT")
-# print(eth_price)
-# # Calculate how much ETH $200 can buy
-# buy_quantity = round(1000 / float(eth_price['price']), 5)
-# # Create test order
-# print(buy_quantity)
-# info = client.get_account()
-#
-#
-# order = client.create_order(
-#         symbol='BTCUSDT',
-#         side=Client.SIDE_SELL,
-#         type=Client.ORDER_TYPE_MARKET,
-#         quantity=balance['free'],
-#     )
-# trades = client.get_my_trades(symbol="BTCUSDT")
-# print(trades)
-# order2 = client.get_order(
-#     symbol='ETHUSDT',
-#     orderId=)
-#

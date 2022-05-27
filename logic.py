@@ -10,7 +10,7 @@ news = pd.read_pickle("resources/news.txt")
 # print(df)
 
 f_nltk = open('resources/predict.json')
-f_spacy = open('resources/predict.json')
+f_spacy = open('resources/predict-2.json')
 data_nltk = json.load(f_nltk)
 data_nltk = data_nltk[1:-1]
 pred_nltk = np.array(ast.literal_eval(data_nltk), dtype=str)

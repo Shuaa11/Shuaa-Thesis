@@ -43,21 +43,21 @@ jobs:
          export_default_credentials: true
       - name: Downloading the Repository
         uses: actions/checkout@v2
-      - name: Image
+      - name: Build Backend Image
         run: |-
             docker build . -t eu.gcr.io/${{ secrets.PROJECT_ID }}/flask
-      - name: Webserver
+      - name: Build Frontend Image
         run: |-
             docker build frontend/frontend/. -t eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver
       - run:  gcloud auth configure-docker -q
 
      # Push image to Google Container Registry
-      - name: Build
+      - name: Push Backend Image
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/flask 
 
 
-      - name: Build
+      - name: Push Frontend Image
         run: |-
           docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/webserver    
    deploy:

@@ -2,11 +2,6 @@ import React from "react";
 import ReactApexChart from "react-apexcharts"
 import * as ApexCharts from "apexcharts";
 
-  function resetData(){
-    // Alternatively, you can also reset the data at certain intervals to prevent creating a huge series
-    data = data.slice(data.length - 10, data.length);
-  }
- let lastDate = 0;
   let points =[]
   let action
   let data = []
@@ -33,7 +28,7 @@ class LiveLineChart extends React.Component {
                   enabled: true,
                   easing: 'linear',
                   dynamicAnimation: {
-                    speed: 1000
+                    speed: 500
                   }
                 },
                 toolbar: {
@@ -80,11 +75,10 @@ class LiveLineChart extends React.Component {
 
           };
         }
+        componentDidUpdate(prevProps) {
+          if (this.props.logs.length !== prevProps.logs.length) {
 
-        componentWillReceiveProps(nextProps, nextContext) {
-
-            if (nextProps.logs !== this.state.logs){
-                this.setState({logs : nextProps.logs})
+            this.setState({logs :this.props.logs})
                 if (this.state.logs.length!=0){
 
                     data.push({
@@ -94,6 +88,7 @@ class LiveLineChart extends React.Component {
 
                     action = this.state.logs[0].result
                     if(points.length==10){
+                        console.log("shift")
                         points.shift()
                     }
                     points.push({
@@ -118,13 +113,8 @@ class LiveLineChart extends React.Component {
                   }
                 })
                 }
-            }
-        }
-
-
-    componentDidMount() {
-          setInterval(() => {
-            if (this.state.logs.length==0){
+          }
+           if (this.state.logs.length==0){
                 data=[]
                    ApexCharts.exec('realtime', 'updateSeries', [{
               data: data
@@ -142,10 +132,9 @@ class LiveLineChart extends React.Component {
                   }
                 }, false, true);
             }
-
-
-          }, 5000)
         }
+
+
 
 
         render() {

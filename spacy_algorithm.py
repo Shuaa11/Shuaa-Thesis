@@ -61,6 +61,11 @@ class SpacyAlgorithm:
         # Serialization
 
     def serialize(self):
+        for i in range(self.prediction.shape[0]):
+            if self.prediction[i] == "Negative":
+                self.prediction[i] = "Positive"
+            else:
+                self.prediction[i] = "Negative"
         json_str = json.dumps(self.prediction.tolist())
 
         with open('resources/predict-2.json', 'w') as outfile:

@@ -1,5 +1,4 @@
 import { Tabs } from 'antd';
-import CandleChart from "./CandleChart";
 import React from "react";
 import DropDownChartMenu from "./DropdownMenu";
 

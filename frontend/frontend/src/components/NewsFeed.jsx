@@ -6,9 +6,7 @@ const [news, setNews] = useState([])
 
     useEffect(()=>{
           fetch('http://'+window.location.hostname+':5000/getNews').then(function(response) {
-    // The response is a Response instance.
 
-    // You parse the data into a useable format using .json()
     return response.json();
   }).then(function(data) {
     let numbers =[]
