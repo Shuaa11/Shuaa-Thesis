@@ -1,5 +1,5 @@
-const startDate ="Mar 1, 2022";
-let currentDate = "Mar 1, 2022";
+const startDate ="Dec 1, 2021";
+let currentDate = "Dec 1, 2021";
 
 
 self.addEventListener('message', ({ data }) => {

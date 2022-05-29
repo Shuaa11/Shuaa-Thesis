@@ -34,7 +34,7 @@ const menu = (
 );
 
 
-const [day, setDay] = useState("Mar 1, 2022");
+const [day, setDay] = useState("Dec 1, 2021");
 const[tradeType, setTradeType] = useState("SPACY")
 const[reset, setReset] = useState(false)
 const mounted = useRef(false);
